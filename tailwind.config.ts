@@ -41,6 +41,7 @@ const config: Config = {
         'line-draw': 'line-draw 1s ease-out forwards',
         'fade-in': 'fade-in 0.6s ease-out forwards',
         'slide-up': 'slide-up 0.8s ease-out forwards',
+        'spin': 'spin 10s linear infinite',
       },
       keyframes: {
         float: {
@@ -62,6 +63,10 @@ const config: Config = {
         'slide-up': {
           '0%': { transform: 'translateY(40px)', opacity: '0' },
           '100%': { transform: 'translateY(0)', opacity: '1' },
+        },
+        spin: {
+          'from': { transform: 'rotate(0deg)' },
+          'to': { transform: 'rotate(360deg)' },
         },
       },
       transitionTimingFunction: {

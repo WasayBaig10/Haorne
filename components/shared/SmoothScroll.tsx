@@ -1,53 +1,36 @@
 'use client';
 
 import { ReactLenis } from '@studio-freight/react-lenis';
-import { useLenis } from '@studio-freight/react-lenis';
-import { useEffect, useRef } from 'react';
 
 interface SmoothScrollProps {
   children: React.ReactNode;
 }
 
+// Ultra-light smooth scroll for maximum performance
 export function SmoothScroll({ children }: SmoothScrollProps) {
-  const lenis = useLenis();
-  const rafId = useRef<number>();
-
-  // Optimized rAF loop for smooth scrolling
-  useEffect(() => {
-    function raf(time: number) {
-      lenis?.raf(time);
-      rafId.current = requestAnimationFrame(raf);
-    }
-    rafId.current = requestAnimationFrame(raf);
-
-    return () => {
-      if (rafId.current) {
-        cancelAnimationFrame(rafId.current);
-      }
-    };
-  }, [lenis]);
-
   return (
     <ReactLenis
       root
       options={{
-        // Duration for smooth scroll - premium feel
-        duration: 1.2,
-        // Custom easing function for luxury feel
-        easing: (t: number) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+        // Faster duration for more responsive feel
+        duration: 0.8,
+        // Simpler easing function
+        easing: (t: number) => t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2,
         direction: 'vertical',
         gestureDirection: 'vertical',
         smooth: true,
-        // Optimized mouse multiplier for better control
-        mouseMultiplier: 0.8,
-        // Disable smooth touch for better mobile performance
+        // Lower multiplier for better control
+        mouseMultiplier: 0.6,
         smoothTouch: false,
-        touchMultiplier: 2,
+        touchMultiplier: 1.5,
         infinite: false,
-        // Performance optimization: normalize wheel events
+        // Performance optimizations
         normalizeWheel: true,
-        // Reduce wheel rate for smoother scrolling on high-DPI displays
-        wheelMultiplier: 0.8,
+        wheelMultiplier: 0.6,
+      }}
+      raf={(time: number) => {
+        // Minimal raf implementation
+        return typeof window === 'undefined' ? true : !document.hidden;
       }}
     >
       {children}

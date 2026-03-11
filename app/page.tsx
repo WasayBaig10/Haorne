@@ -14,21 +14,19 @@ export default function Home() {
     offset: ['start start', 'end start'],
   });
 
-  const y = useTransform(scrollYProgress, [0, 1], ['0%', '40%']);
-  const scale = useTransform(scrollYProgress, [0, 1], [1, 1.05]);
-  const opacity = useTransform(scrollYProgress, [0, 0.5], [1, 0]);
+  const y = useTransform(scrollYProgress, [0, 1], ['0%', '20%']);
+  const opacity = useTransform(scrollYProgress, [0, 0.3], [1, 0]);
 
   const featuredWatches = sampleWatches.slice(0, 3);
 
   return (
     <>
-      {/* Hero Section */}
+      {/* Hero Section - Simplified parallax */}
       <section ref={heroRef} className="relative h-screen min-h-[700px] flex items-center justify-center overflow-hidden">
-        {/* Background Image with Parallax - GPU accelerated */}
+        {/* Background with lighter parallax */}
         <motion.div
-          className="absolute inset-0 will-change-transform"
-          style={{ y, scale }}
-          layout="position"
+          className="absolute inset-0"
+          style={{ y, opacity }}
         >
           <Image
             src="https://images.unsplash.com/photo-1622434641406-a158123450f9?w=2000&q=80"
@@ -37,35 +35,23 @@ export default function Home() {
             className="object-cover"
             priority
             sizes="100vw"
-            quality={85}
+            quality={80}
           />
           <div className="absolute inset-0 bg-gradient-to-b from-background/40 via-background/60 to-background" />
         </motion.div>
 
-        {/* Hero Content - GPU accelerated */}
+        {/* Hero Content - Simplified animations */}
         <motion.div
           className="relative z-10 container mx-auto px-6 lg:px-12 text-center"
-          initial={{ opacity: 0, y: 40 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.3, duration: 1 }}
-          layout="position"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 0.6 }}
         >
-          <motion.p
-            className="font-sans text-accent-gold text-sm letter-luxury uppercase tracking-widest mb-6"
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.5, duration: 0.8 }}
-            layout="position"
-          >
-            Swiss Haute Horlogerie
-          </motion.p>
-
           <motion.h1
             className="font-serif text-5xl md:text-7xl lg:text-8xl xl:text-9xl font-light text-text-primary mb-8"
-            initial={{ opacity: 0, y: 30 }}
+            initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.7, duration: 0.8 }}
-            layout="position"
+            transition={{ delay: 0.2, duration: 0.6 }}
           >
             Timeless<br />
             <span className="text-gradient">Elegance</span>
@@ -73,10 +59,9 @@ export default function Home() {
 
           <motion.p
             className="font-sans text-text-secondary text-lg md:text-xl max-w-2xl mx-auto mb-12"
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.9, duration: 0.8 }}
-            layout="position"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 0.4, duration: 0.6 }}
           >
             Where precision engineering meets artistic mastery. Discover
             timepieces crafted for those who appreciate the extraordinary.
@@ -84,10 +69,9 @@ export default function Home() {
 
           <motion.div
             className="flex flex-col sm:flex-row items-center justify-center gap-4"
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 1.1, duration: 0.8 }}
-            layout="position"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 0.6, duration: 0.6 }}
           >
             <Link
               href="/collection"
@@ -105,77 +89,51 @@ export default function Home() {
           </motion.div>
         </motion.div>
 
-        {/* Scroll Indicator */}
+        {/* Scroll indicator - Simplified */}
         <motion.div
           className="absolute bottom-10 left-1/2 -translate-x-1/2 flex flex-col items-center gap-4"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
-          transition={{ delay: 1.5, duration: 0.8 }}
-          layout="position"
+          transition={{ delay: 1, duration: 0.6 }}
         >
           <p className="font-sans text-xs letter-luxury text-text-secondary/60 uppercase">
             Scroll
           </p>
-          <motion.div
-            className="w-px h-16 bg-gradient-to-b from-accent-gold to-transparent"
-            animate={{ scaleY: [1, 0.5, 1] }}
-            transition={{ duration: 2, repeat: Infinity, ease: 'easeInOut' }}
-          />
+          <div className="w-px h-16 bg-gradient-to-b from-accent-gold to-transparent" />
         </motion.div>
-
-        {/* Fade Overlay */}
-        <motion.div
-          className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-background to-transparent pointer-events-none"
-          style={{ opacity }}
-          layout="position"
-        />
       </section>
 
-      {/* Featured Collection */}
+      {/* Featured Collection - Using CSS animations instead of Framer Motion */}
       <section className="py-24 md:py-32 bg-surface">
         <div className="container mx-auto px-6 lg:px-12">
-          <motion.div
-            className="text-center mb-16"
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: '-50px' }}
-            transition={{ duration: 0.8 }}
-            layout="position"
-          >
+          <div className="text-center mb-16 animate-fade-in">
             <p className="font-sans text-accent-gold text-sm letter-luxury uppercase tracking-widest mb-4">
               Exceptional Timepieces
             </p>
             <h2 className="font-serif text-4xl md:text-5xl text-text-primary">
               Featured Collection
             </h2>
-          </motion.div>
+          </div>
 
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
             {featuredWatches.map((watch, index) => (
-              <motion.div
+              <div
                 key={watch.id}
-                initial={{ opacity: 0, y: 40 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, margin: '-50px' }}
-                transition={{ delay: index * 0.15, duration: 0.8 }}
-                layout="position"
+                className="group animate-slide-up"
+                style={{ animationDelay: `${index * 0.1}s` }}
               >
                 <Link href={`/collection/${watch.slug}`}>
                   <div className="group relative aspect-[4/5] overflow-hidden bg-surface2 border border-border hover:border-accent-gold/30 transition-all duration-500">
-                    <motion.div
-                      className="relative h-full w-full will-change-transform"
-                      whileHover={{ scale: 1.08 }}
-                      transition={{ duration: 0.6, ease: [0.25, 0.46, 0.45, 0.94] }}
-                    >
+                    <div className="relative h-full w-full overflow-hidden">
                       <Image
                         src={watch.images.thumbnail}
                         alt={watch.name}
                         fill
-                        className="object-cover"
+                        className="object-cover transition-transform duration-700 group-hover:scale-105"
                         sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
-                        quality={85}
+                        quality={80}
                       />
-                    </motion.div>
+                    </div>
 
                     <div className="absolute inset-0 bg-gradient-to-t from-background via-transparent to-transparent opacity-60 group-hover:opacity-80 transition-opacity" />
 
@@ -203,18 +161,11 @@ export default function Home() {
                     )}
                   </div>
                 </Link>
-              </motion.div>
+              </div>
             ))}
           </div>
 
-          <motion.div
-            className="text-center mt-16"
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: '-50px' }}
-            transition={{ delay: 0.5, duration: 0.8 }}
-            layout="position"
-          >
+          <div className="text-center mt-16">
             <Link
               href="/collection"
               className="inline-flex items-center gap-2 px-10 py-4 border border-border text-text-primary font-sans text-sm letter-luxury uppercase hover:border-accent-gold hover:text-accent-gold transition-colors group"
@@ -222,11 +173,11 @@ export default function Home() {
               View Full Collection
               <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" strokeWidth={1.5} />
             </Link>
-          </motion.div>
+          </div>
         </div>
       </section>
 
-      {/* Craftsmanship Teaser */}
+      {/* Craftsmanship Teaser - Simplified */}
       <section className="py-24 md:py-32 relative overflow-hidden">
         <div className="absolute inset-0">
           <Image
@@ -235,20 +186,14 @@ export default function Home() {
             fill
             className="object-cover"
             sizes="100vw"
-            quality={85}
+            quality={75}
           />
           <div className="absolute inset-0 bg-background/90" />
         </div>
 
         <div className="relative z-10 container mx-auto px-6 lg:px-12">
           <div className="grid lg:grid-cols-2 gap-12 items-center">
-            <motion.div
-              initial={{ opacity: 0, x: -40 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: true, margin: '-50px' }}
-              transition={{ duration: 0.8 }}
-              layout="position"
-            >
+            <div className="animate-fade-in">
               <p className="font-sans text-accent-gold text-sm letter-luxury uppercase tracking-widest mb-4">
                 The Art of Watchmaking
               </p>
@@ -268,27 +213,20 @@ export default function Home() {
                 Discover Our Craft
                 <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" strokeWidth={1.5} />
               </Link>
-            </motion.div>
+            </div>
 
-            <motion.div
-              className="relative aspect-square will-change-transform"
-              initial={{ opacity: 0, scale: 0.9 }}
-              whileInView={{ opacity: 1, scale: 1 }}
-              viewport={{ once: true, margin: '-50px' }}
-              transition={{ delay: 0.3, duration: 1 }}
-              layout="position"
-            >
-              <div className="absolute inset-0 border-2 border-accent-gold/20 rounded-full animate-spin" style={{ animationDuration: '60s' }} />
-              <div className="absolute inset-8 border border-accent-gold/10 rounded-full animate-spin" style={{ animationDuration: '45s', animationDirection: 'reverse' }} />
+            <div className="relative aspect-square animate-slide-up">
+              <div className="absolute inset-0 border-2 border-accent-gold/20 rounded-full" style={{ animation: 'spin 60s linear infinite' }} />
+              <div className="absolute inset-8 border border-accent-gold/10 rounded-full" style={{ animation: 'spin 45s linear infinite reverse' }} />
               <Image
                 src="https://images.unsplash.com/photo-1639037687665-4a97656bb54e?w=800&q=80"
                 alt="Watch Movement Detail"
                 fill
                 className="object-cover rounded-full p-12"
                 sizes="(max-width: 1024px) 100vw, 50vw"
-                quality={90}
+                quality={85}
               />
-            </motion.div>
+            </div>
           </div>
         </div>
       </section>
@@ -296,33 +234,25 @@ export default function Home() {
       {/* Heritage Teaser */}
       <section className="py-24 md:py-32 bg-surface border-t border-border">
         <div className="container mx-auto px-6 lg:px-12">
-          <div className="max-w-4xl mx-auto text-center">
-            <motion.div
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: '-50px' }}
-              transition={{ duration: 0.8 }}
-              layout="position"
+          <div className="max-w-4xl mx-auto text-center animate-fade-in">
+            <p className="font-sans text-accent-gold text-sm letter-luxury uppercase tracking-widest mb-4">
+              Since 1892
+            </p>
+            <h2 className="font-serif text-4xl md:text-5xl text-text-primary mb-6">
+              A Legacy of Excellence
+            </h2>
+            <p className="font-sans text-text-secondary text-lg leading-relaxed mb-8">
+              For over a century, Haorne has been at the forefront of Swiss
+              watchmaking. Our heritage is built on unwavering dedication to
+              quality, innovation, and the pursuit of perfection.
+            </p>
+            <Link
+              href="/heritage"
+              className="inline-flex items-center gap-2 px-10 py-4 bg-accent-gold text-background font-sans text-sm letter-luxury uppercase hover:bg-accent-goldLight transition-colors group"
             >
-              <p className="font-sans text-accent-gold text-sm letter-luxury uppercase tracking-widest mb-4">
-                Since 1892
-              </p>
-              <h2 className="font-serif text-4xl md:text-5xl text-text-primary mb-6">
-                A Legacy of Excellence
-              </h2>
-              <p className="font-sans text-text-secondary text-lg leading-relaxed mb-8">
-                For over a century, Haorne has been at the forefront of Swiss
-                watchmaking. Our heritage is built on unwavering dedication to
-                quality, innovation, and the pursuit of perfection.
-              </p>
-              <Link
-                href="/heritage"
-                className="inline-flex items-center gap-2 px-10 py-4 bg-accent-gold text-background font-sans text-sm letter-luxury uppercase hover:bg-accent-goldLight transition-colors group"
-              >
-                Explore Our History
-                <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" strokeWidth={1.5} />
-              </Link>
-            </motion.div>
+              Explore Our History
+              <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" strokeWidth={1.5} />
+            </Link>
           </div>
         </div>
       </section>
@@ -330,14 +260,7 @@ export default function Home() {
       {/* Newsletter Section */}
       <section className="py-24 bg-background">
         <div className="container mx-auto px-6 lg:px-12">
-          <motion.div
-            className="max-w-2xl mx-auto text-center border border-border p-12 bg-surface"
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: '-50px' }}
-            transition={{ duration: 0.8 }}
-            layout="position"
-          >
+          <div className="max-w-2xl mx-auto text-center border border-border p-12 bg-surface animate-fade-in">
             <h2 className="font-serif text-3xl md:text-4xl text-text-primary mb-4">
               Stay Informed
             </h2>
@@ -359,7 +282,7 @@ export default function Home() {
                 Subscribe
               </button>
             </form>
-          </motion.div>
+          </div>
         </div>
       </section>
     </>
