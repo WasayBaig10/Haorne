@@ -85,6 +85,20 @@
     background-size: 200% 100%;
     animation: shimmer 2s infinite;
   }
+
+  /* GPU acceleration utilities */
+  .will-change-transform {
+    will-change: transform;
+  }
+
+  .will-change-opacity {
+    will-change: opacity;
+  }
+
+  .gpu-accelerated {
+    transform: translateZ(0);
+    backface-visibility: hidden;
+  }
 }
 
 /* Custom cursor for premium feel */

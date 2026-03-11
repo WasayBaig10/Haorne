@@ -4,7 +4,7 @@ import { motion, useScroll, useTransform } from 'framer-motion';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useRef } from 'react';
-import { ArrowRight, Play } from 'lucide-react';
+import { ArrowRight } from 'lucide-react';
 import { sampleWatches } from '@/lib/types/watch';
 
 export default function Home() {
@@ -24,10 +24,11 @@ export default function Home() {
     <>
       {/* Hero Section */}
       <section ref={heroRef} className="relative h-screen min-h-[700px] flex items-center justify-center overflow-hidden">
-        {/* Background Image with Parallax */}
+        {/* Background Image with Parallax - GPU accelerated */}
         <motion.div
-          className="absolute inset-0"
+          className="absolute inset-0 will-change-transform"
           style={{ y, scale }}
+          layout="position"
         >
           <Image
             src="https://images.unsplash.com/photo-1622434641406-a158123450f9?w=2000&q=80"
@@ -36,22 +37,25 @@ export default function Home() {
             className="object-cover"
             priority
             sizes="100vw"
+            quality={85}
           />
           <div className="absolute inset-0 bg-gradient-to-b from-background/40 via-background/60 to-background" />
         </motion.div>
 
-        {/* Hero Content */}
+        {/* Hero Content - GPU accelerated */}
         <motion.div
           className="relative z-10 container mx-auto px-6 lg:px-12 text-center"
           initial={{ opacity: 0, y: 40 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.3, duration: 1 }}
+          layout="position"
         >
           <motion.p
             className="font-sans text-accent-gold text-sm letter-luxury uppercase tracking-widest mb-6"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.5, duration: 0.8 }}
+            layout="position"
           >
             Swiss Haute Horlogerie
           </motion.p>
@@ -61,6 +65,7 @@ export default function Home() {
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.7, duration: 0.8 }}
+            layout="position"
           >
             Timeless<br />
             <span className="text-gradient">Elegance</span>
@@ -71,6 +76,7 @@ export default function Home() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.9, duration: 0.8 }}
+            layout="position"
           >
             Where precision engineering meets artistic mastery. Discover
             timepieces crafted for those who appreciate the extraordinary.
@@ -81,6 +87,7 @@ export default function Home() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 1.1, duration: 0.8 }}
+            layout="position"
           >
             <Link
               href="/collection"
@@ -104,6 +111,7 @@ export default function Home() {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 1.5, duration: 0.8 }}
+          layout="position"
         >
           <p className="font-sans text-xs letter-luxury text-text-secondary/60 uppercase">
             Scroll
@@ -119,6 +127,7 @@ export default function Home() {
         <motion.div
           className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-background to-transparent pointer-events-none"
           style={{ opacity }}
+          layout="position"
         />
       </section>
 
@@ -129,8 +138,9 @@ export default function Home() {
             className="text-center mb-16"
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
+            viewport={{ once: true, margin: '-50px' }}
             transition={{ duration: 0.8 }}
+            layout="position"
           >
             <p className="font-sans text-accent-gold text-sm letter-luxury uppercase tracking-widest mb-4">
               Exceptional Timepieces
@@ -146,13 +156,14 @@ export default function Home() {
                 key={watch.id}
                 initial={{ opacity: 0, y: 40 }}
                 whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
+                viewport={{ once: true, margin: '-50px' }}
                 transition={{ delay: index * 0.15, duration: 0.8 }}
+                layout="position"
               >
                 <Link href={`/collection/${watch.slug}`}>
                   <div className="group relative aspect-[4/5] overflow-hidden bg-surface2 border border-border hover:border-accent-gold/30 transition-all duration-500">
                     <motion.div
-                      className="relative h-full w-full"
+                      className="relative h-full w-full will-change-transform"
                       whileHover={{ scale: 1.08 }}
                       transition={{ duration: 0.6, ease: [0.25, 0.46, 0.45, 0.94] }}
                     >
@@ -162,6 +173,7 @@ export default function Home() {
                         fill
                         className="object-cover"
                         sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                        quality={85}
                       />
                     </motion.div>
 
@@ -199,8 +211,9 @@ export default function Home() {
             className="text-center mt-16"
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
+            viewport={{ once: true, margin: '-50px' }}
             transition={{ delay: 0.5, duration: 0.8 }}
+            layout="position"
           >
             <Link
               href="/collection"
@@ -222,6 +235,7 @@ export default function Home() {
             fill
             className="object-cover"
             sizes="100vw"
+            quality={85}
           />
           <div className="absolute inset-0 bg-background/90" />
         </div>
@@ -231,8 +245,9 @@ export default function Home() {
             <motion.div
               initial={{ opacity: 0, x: -40 }}
               whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: true }}
+              viewport={{ once: true, margin: '-50px' }}
               transition={{ duration: 0.8 }}
+              layout="position"
             >
               <p className="font-sans text-accent-gold text-sm letter-luxury uppercase tracking-widest mb-4">
                 The Art of Watchmaking
@@ -256,11 +271,12 @@ export default function Home() {
             </motion.div>
 
             <motion.div
-              className="relative aspect-square"
+              className="relative aspect-square will-change-transform"
               initial={{ opacity: 0, scale: 0.9 }}
               whileInView={{ opacity: 1, scale: 1 }}
-              viewport={{ once: true }}
+              viewport={{ once: true, margin: '-50px' }}
               transition={{ delay: 0.3, duration: 1 }}
+              layout="position"
             >
               <div className="absolute inset-0 border-2 border-accent-gold/20 rounded-full animate-spin" style={{ animationDuration: '60s' }} />
               <div className="absolute inset-8 border border-accent-gold/10 rounded-full animate-spin" style={{ animationDuration: '45s', animationDirection: 'reverse' }} />
@@ -269,7 +285,8 @@ export default function Home() {
                 alt="Watch Movement Detail"
                 fill
                 className="object-cover rounded-full p-12"
-                sizes="50vw"
+                sizes="(max-width: 1024px) 100vw, 50vw"
+                quality={90}
               />
             </motion.div>
           </div>
@@ -283,8 +300,9 @@ export default function Home() {
             <motion.div
               initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
+              viewport={{ once: true, margin: '-50px' }}
               transition={{ duration: 0.8 }}
+              layout="position"
             >
               <p className="font-sans text-accent-gold text-sm letter-luxury uppercase tracking-widest mb-4">
                 Since 1892
@@ -316,8 +334,9 @@ export default function Home() {
             className="max-w-2xl mx-auto text-center border border-border p-12 bg-surface"
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
+            viewport={{ once: true, margin: '-50px' }}
             transition={{ duration: 0.8 }}
+            layout="position"
           >
             <h2 className="font-serif text-3xl md:text-4xl text-text-primary mb-4">
               Stay Informed

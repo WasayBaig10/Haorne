@@ -1,6 +1,6 @@
 'use client';
 
-import { motion } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useState } from 'react';
@@ -62,12 +62,13 @@ export default function CollectionPage() {
     <div className="min-h-screen pt-20">
       {/* Hero Section */}
       <section className="relative h-[50vh] min-h-[400px] flex items-center justify-center overflow-hidden">
-        {/* Background Image with Parallax */}
+        {/* Background Image with Parallax - GPU accelerated */}
         <motion.div
-          className="absolute inset-0"
+          className="absolute inset-0 will-change-transform"
           initial={{ scale: 1.2 }}
           animate={{ scale: 1 }}
           transition={{ duration: 1.5, ease: [0.25, 0.46, 0.45, 0.94] }}
+          layout="position"
         >
           <Image
             src="https://images.unsplash.com/photo-1614164185128-e4ec99c436d7?w=2000&q=80"
@@ -76,6 +77,7 @@ export default function CollectionPage() {
             className="object-cover"
             priority
             sizes="100vw"
+            quality={85}
           />
           <div className="absolute inset-0 bg-gradient-to-b from-background/30 via-background/60 to-background" />
         </motion.div>
@@ -86,6 +88,7 @@ export default function CollectionPage() {
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.5, duration: 0.8 }}
+          layout="position"
         >
           <p className="font-sans text-accent-gold text-sm letter-luxury uppercase tracking-widest mb-4">
             Discover
@@ -149,33 +152,36 @@ export default function CollectionPage() {
           </div>
 
           {/* Mobile Filter Panel */}
-          {isFilterOpen && (
-            <motion.div
-              className="lg:hidden border-t border-border py-4"
-              initial={{ height: 0, opacity: 0 }}
-              animate={{ height: 'auto', opacity: 1 }}
-              exit={{ height: 0, opacity: 0 }}
-            >
-              <div className="grid grid-cols-2 gap-4">
-                {collections.map((collection) => (
-                  <button
-                    key={collection.id}
-                    onClick={() => {
-                      setActiveCollection(collection.id);
-                      setIsFilterOpen(false);
-                    }}
-                    className={`font-sans text-sm letter-luxury uppercase text-left py-2 transition-colors ${
-                      activeCollection === collection.id
-                        ? 'text-accent-gold'
-                        : 'text-text-secondary'
-                    }`}
-                  >
-                    {collection.name}
-                  </button>
-                ))}
-              </div>
-            </motion.div>
-          )}
+          <AnimatePresence>
+            {isFilterOpen && (
+              <motion.div
+                className="lg:hidden border-t border-border py-4 overflow-hidden"
+                initial={{ height: 0, opacity: 0 }}
+                animate={{ height: 'auto', opacity: 1 }}
+                exit={{ height: 0, opacity: 0 }}
+                transition={{ duration: 0.3 }}
+              >
+                <div className="grid grid-cols-2 gap-4">
+                  {collections.map((collection) => (
+                    <button
+                      key={collection.id}
+                      onClick={() => {
+                        setActiveCollection(collection.id);
+                        setIsFilterOpen(false);
+                      }}
+                      className={`font-sans text-sm letter-luxury uppercase text-left py-2 transition-colors ${
+                        activeCollection === collection.id
+                          ? 'text-accent-gold'
+                          : 'text-text-secondary'
+                      }`}
+                    >
+                      {collection.name}
+                    </button>
+                  ))}
+                </div>
+              </motion.div>
+            )}
+          </AnimatePresence>
         </div>
       </section>
 
@@ -193,12 +199,13 @@ export default function CollectionPage() {
                 key={watch.id}
                 variants={itemVariants}
                 className="group"
+                layout="position"
               >
                 <Link href={`/collection/${watch.slug}`}>
                   <div className="relative aspect-[4/5] overflow-hidden bg-surface2 border border-border hover:border-accent-gold/30 transition-all duration-500">
-                    {/* Image with Parallax Effect */}
+                    {/* Image with Parallax Effect - GPU accelerated */}
                     <motion.div
-                      className="relative h-full w-full"
+                      className="relative h-full w-full will-change-transform"
                       whileHover={{ scale: 1.1 }}
                       transition={{ duration: 0.6, ease: [0.25, 0.46, 0.45, 0.94] }}
                     >
@@ -208,6 +215,7 @@ export default function CollectionPage() {
                         fill
                         className="object-cover"
                         sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 25vw"
+                        quality={85}
                       />
                     </motion.div>
 
@@ -216,9 +224,10 @@ export default function CollectionPage() {
 
                     {/* Quick View Button */}
                     <motion.div
-                      className="absolute bottom-6 left-6 right-6"
+                      className="absolute bottom-6 left-6 right-6 will-change-transform"
                       initial={{ y: 20, opacity: 0 }}
                       whileInView={{ y: 0, opacity: 1 }}
+                      viewport={{ once: true, margin: '-50px' }}
                       whileHover={{ y: -5 }}
                       transition={{ duration: 0.3 }}
                     >

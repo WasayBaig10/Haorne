@@ -67,6 +67,11 @@ const config: Config = {
       transitionTimingFunction: {
         'luxury': 'cubic-bezier(0.25, 0.46, 0.45, 0.94)',
       },
+      willChange: {
+        'transform': 'transform',
+        'opacity': 'opacity',
+        'transform-opacity': 'transform, opacity',
+      },
     },
   },
   plugins: [],
