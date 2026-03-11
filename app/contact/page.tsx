@@ -118,8 +118,8 @@ export default function ContactPage() {
               transition={{ delay: 0.8, duration: 0.8 }}
             >
               <p className="font-serif text-2xl md:text-3xl text-text-primary mb-4">
-                "Every timepiece tells a story. We invite you to become part
-                of ours."
+                &quot;Every timepiece tells a story. We invite you to become part
+                of ours.&quot;
               </p>
               <cite className="font-sans text-accent-gold text-sm letter-luxury uppercase not-italic">
                 — The Haorne Family

@@ -1,12 +1,11 @@
 'use client';
 
-import { useEffect, useState, useRef } from 'react';
+import { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
 
 export function CustomCursor() {
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
   const [isHovering, setIsHovering] = useState(false);
-  const rafRef = useRef<number>();
 
   useEffect(() => {
     // Throttled mouse move handler for better performance
@@ -40,9 +39,6 @@ export function CustomCursor() {
     return () => {
       window.removeEventListener('mousemove', handleMouseMove);
       window.removeEventListener('mouseover', handleMouseOver);
-      if (rafRef.current) {
-        cancelAnimationFrame(rafRef.current);
-      }
     };
   }, []);
 
