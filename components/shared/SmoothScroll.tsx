@@ -6,31 +6,27 @@ interface SmoothScrollProps {
   children: React.ReactNode;
 }
 
-// Ultra-light smooth scroll for maximum performance
+// Premium smooth scroll for luxurious feel
 export function SmoothScroll({ children }: SmoothScrollProps) {
   return (
     <ReactLenis
       root
       options={{
-        // Faster duration for more responsive feel
-        duration: 0.8,
-        // Simpler easing function
-        easing: (t: number) => t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2,
+        // Slower, more luxurious duration
+        duration: 1.2,
+        // Smooth cubic easing for premium feel
+        easing: (t: number) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
         direction: 'vertical',
         gestureDirection: 'vertical',
         smooth: true,
-        // Lower multiplier for better control
-        mouseMultiplier: 0.6,
+        // Balanced multiplier for elegant scrolling
+        mouseMultiplier: 1,
         smoothTouch: false,
-        touchMultiplier: 1.5,
+        touchMultiplier: 2,
         infinite: false,
-        // Performance optimizations
+        // Smooth wheel handling
         normalizeWheel: true,
-        wheelMultiplier: 0.6,
-      }}
-      raf={(time: number) => {
-        // Minimal raf implementation
-        return typeof window === 'undefined' ? true : !document.hidden;
+        wheelMultiplier: 0.8,
       }}
     >
       {children}

@@ -199,15 +199,21 @@ export default function CollectionPage() {
                 key={watch.id}
                 variants={itemVariants}
                 className="group"
-                layout="position"
               >
                 <Link href={`/collection/${watch.slug}`}>
-                  <div className="relative aspect-[4/5] overflow-hidden bg-surface2 border border-border hover:border-accent-gold/30 transition-all duration-500">
-                    {/* Image with Parallax Effect - GPU accelerated */}
+                  <motion.div
+                    className="relative aspect-[4/5] overflow-hidden bg-surface2 border border-border"
+                    whileHover={{
+                      borderColor: 'rgba(212, 175, 55, 0.4)',
+                      y: -12,
+                    }}
+                    transition={{ duration: 0.5, ease: [0.25, 0.46, 0.45, 0.94] }}
+                  >
+                    {/* Image with Premium Parallax Effect */}
                     <motion.div
-                      className="relative h-full w-full will-change-transform"
-                      whileHover={{ scale: 1.1 }}
-                      transition={{ duration: 0.6, ease: [0.25, 0.46, 0.45, 0.94] }}
+                      className="relative h-full w-full"
+                      whileHover={{ scale: 1.15 }}
+                      transition={{ duration: 0.8, ease: [0.25, 0.46, 0.45, 0.94] }}
                     >
                       <Image
                         src={watch.images.thumbnail}
@@ -215,51 +221,88 @@ export default function CollectionPage() {
                         fill
                         className="object-cover"
                         sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 25vw"
-                        quality={85}
+                        quality={92}
                       />
                     </motion.div>
 
                     {/* Overlay Gradient */}
-                    <div className="absolute inset-0 bg-gradient-to-t from-background via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-
-                    {/* Quick View Button */}
                     <motion.div
-                      className="absolute bottom-6 left-6 right-6 will-change-transform"
-                      initial={{ y: 20, opacity: 0 }}
+                      className="absolute inset-0 bg-gradient-to-t from-background via-transparent to-transparent"
+                      initial={{ opacity: 0 }}
+                      whileHover={{ opacity: 1 }}
+                      transition={{ duration: 0.5 }}
+                    />
+
+                    {/* Quick View Button - Premium reveal */}
+                    <motion.div
+                      className="absolute bottom-6 left-6 right-6"
+                      initial={{ y: 30, opacity: 0 }}
                       whileInView={{ y: 0, opacity: 1 }}
                       viewport={{ once: true, margin: '-50px' }}
-                      whileHover={{ y: -5 }}
-                      transition={{ duration: 0.3 }}
+                      whileHover={{ y: -8 }}
+                      transition={{ duration: 0.4, ease: [0.25, 0.46, 0.45, 0.94] }}
                     >
-                      <div className="bg-background/90 backdrop-blur-sm border border-accent-gold/30 py-3 px-4 flex items-center justify-center gap-2 group-hover:bg-accent-gold group-hover:text-background transition-all duration-300">
+                      <motion.div
+                        className="bg-background/95 backdrop-blur-md border border-accent-gold/30 py-3 px-4 flex items-center justify-center gap-2"
+                        whileHover={{
+                          backgroundColor: 'rgb(212, 175, 55)',
+                          color: 'rgb(18, 18, 18)',
+                        }}
+                        transition={{ duration: 0.3 }}
+                      >
                         <span className="font-sans text-xs letter-luxury uppercase">
                           View Details
                         </span>
-                        <ArrowRight className="w-4 h-4" strokeWidth={1.5} />
-                      </div>
+                        <motion.div
+                          whileHover={{ x: 4 }}
+                          transition={{ duration: 0.3 }}
+                        >
+                          <ArrowRight className="w-4 h-4" strokeWidth={1.5} />
+                        </motion.div>
+                      </motion.div>
                     </motion.div>
 
-                    {/* Badges */}
+                    {/* Badges with reveal animation */}
                     <div className="absolute top-4 left-4 flex flex-col gap-2">
                       {watch.isNew && (
-                        <span className="bg-accent-gold text-background px-3 py-1 font-sans text-xs letter-luxury uppercase">
+                        <motion.span
+                          className="bg-accent-gold text-background px-3 py-1 font-sans text-xs letter-luxury uppercase"
+                          initial={{ x: -20, opacity: 0 }}
+                          whileInView={{ x: 0, opacity: 1 }}
+                          viewport={{ once: true }}
+                          transition={{ delay: 0.2, duration: 0.5 }}
+                        >
                           New
-                        </span>
+                        </motion.span>
                       )}
                       {watch.isLimited && (
-                        <span className="bg-surface border border-accent-gold text-accent-gold px-3 py-1 font-sans text-xs letter-luxury uppercase">
+                        <motion.span
+                          className="bg-surface/90 backdrop-blur-sm border border-accent-gold text-accent-gold px-3 py-1 font-sans text-xs letter-luxury uppercase"
+                          initial={{ x: -20, opacity: 0 }}
+                          whileInView={{ x: 0, opacity: 1 }}
+                          viewport={{ once: true }}
+                          transition={{ delay: 0.3, duration: 0.5 }}
+                        >
                           Limited
-                        </span>
+                        </motion.span>
                       )}
                     </div>
-                  </div>
+                  </motion.div>
                 </Link>
 
-                {/* Info Section */}
-                <div className="mt-4 space-y-2">
-                  <h3 className="font-serif text-xl text-text-primary group-hover:text-accent-gold transition-colors">
+                {/* Info Section with hover effects */}
+                <motion.div
+                  className="mt-4 space-y-2"
+                  whileHover={{ x: 4 }}
+                  transition={{ duration: 0.3 }}
+                >
+                  <motion.h3
+                    className="font-serif text-xl text-text-primary"
+                    whileHover={{ color: 'rgb(212, 175, 55)' }}
+                    transition={{ duration: 0.3 }}
+                  >
                     {watch.name}
-                  </h3>
+                  </motion.h3>
                   <p className="font-sans text-sm text-text-secondary">
                     {watch.shortDescription}
                   </p>
@@ -271,7 +314,7 @@ export default function CollectionPage() {
                       {watch.reference}
                     </p>
                   </div>
-                </div>
+                </motion.div>
               </motion.div>
             ))}
           </motion.div>

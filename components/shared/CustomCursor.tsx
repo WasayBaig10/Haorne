@@ -8,17 +8,8 @@ export function CustomCursor() {
   const [isHovering, setIsHovering] = useState(false);
 
   useEffect(() => {
-    // Throttled mouse move handler for better performance
-    let lastX = 0;
-    let lastY = 0;
-
     const handleMouseMove = (e: MouseEvent) => {
-      // Only update if position changed significantly
-      if (Math.abs(e.clientX - lastX) > 2 || Math.abs(e.clientY - lastY) > 2) {
-        lastX = e.clientX;
-        lastY = e.clientY;
-        setMousePosition({ x: e.clientX, y: e.clientY });
-      }
+      setMousePosition({ x: e.clientX, y: e.clientY });
     };
 
     const handleMouseOver = (e: MouseEvent) => {
@@ -44,28 +35,28 @@ export function CustomCursor() {
 
   return (
     <>
-      {/* Main cursor dot - simplified */}
+      {/* Main cursor dot - crisp and precise */}
       <motion.div
         className="cursor-dot hidden md:block"
         animate={{
-          x: mousePosition.x,
-          y: mousePosition.y,
+          x: mousePosition.x - 4,
+          y: mousePosition.y - 4,
         }}
-        transition={{ type: 'tween', ease: 'linear', duration: 0.016 }}
+        transition={{ type: 'tween', ease: 'linear', duration: 0.01 }}
       />
 
-      {/* Expanding outline - simplified */}
+      {/* Expanding outline - smooth, luxurious follow */}
       <motion.div
         className="cursor-outline hidden md:block"
         animate={{
-          x: mousePosition.x,
-          y: mousePosition.y,
-          scale: isHovering ? 1.5 : 1,
+          x: mousePosition.x - 20,
+          y: mousePosition.y - 20,
+          scale: isHovering ? 2.5 : 1,
         }}
         transition={{
-          x: { type: 'spring', damping: 30, stiffness: 200 },
-          y: { type: 'spring', damping: 30, stiffness: 200 },
-          scale: { duration: 0.2 },
+          x: { type: 'spring', damping: 25, stiffness: 150, mass: 0.5 },
+          y: { type: 'spring', damping: 25, stiffness: 150, mass: 0.5 },
+          scale: { type: 'spring', damping: 15, stiffness: 200, mass: 0.3 },
         }}
       />
     </>
