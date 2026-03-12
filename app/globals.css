@@ -88,25 +88,27 @@
   }
 }
 
-/* Custom cursor - positioned at viewport level */
+/* Custom cursor - hide default cursor */
 .custom-cursor {
-  cursor: none;
+  cursor: none !important;
 }
 
+/* Cursor elements - centered on mouse position */
 .cursor-dot,
 .cursor-outline {
   position: fixed;
   top: 0;
   left: 0;
+  transform: translate(-50%, -50%);
   border-radius: 50%;
   pointer-events: none;
-  will-change: transform;
-  z-index: 9999;
+  z-index: 99999;
+  will-change: transform, left, top;
 }
 
 .cursor-dot {
-  width: 6px;
-  height: 6px;
+  width: 8px;
+  height: 8px;
   background-color: #E5E5E5;
 }
 
@@ -114,17 +116,18 @@
   width: 32px;
   height: 32px;
   border: 1px solid rgba(229, 229, 229, 0.4);
+  box-sizing: border-box;
 }
 
 /* Hide cursor on touch devices and reduce motion */
 @media (pointer: coarse) or (prefers-reduced-motion: reduce) {
   .custom-cursor {
-    cursor: auto;
+    cursor: auto !important;
   }
 
   .cursor-dot,
   .cursor-outline {
-    display: none;
+    display: none !important;
   }
 }
 
