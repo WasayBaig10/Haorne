@@ -1,15 +1,27 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import { motion } from 'framer-motion';
+import { motion, useMotionValue, useSpring, useTransform } from 'framer-motion';
 
 export function CustomCursor() {
-  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
   const [isHovering, setIsHovering] = useState(false);
+
+  // Use motion values for smooth performance
+  const mouseX = useMotionValue(0);
+  const mouseY = useMotionValue(0);
+
+  // Smooth spring for outline
+  const smoothX = useSpring(mouseX, { damping: 30, stiffness: 200, mass: 0.5 });
+  const smoothY = useSpring(mouseY, { damping: 30, stiffness: 200, mass: 0.5 });
+
+  // Scale value for hover effect
+  const scaleValue = useMotionValue(1);
+  const smoothScale = useSpring(scaleValue, { damping: 20, stiffness: 300 });
 
   useEffect(() => {
     const handleMouseMove = (e: MouseEvent) => {
-      setMousePosition({ x: e.clientX, y: e.clientY });
+      mouseX.set(e.clientX);
+      mouseY.set(e.clientY);
     };
 
     const handleMouseOver = (e: MouseEvent) => {
@@ -22,6 +34,7 @@ export function CustomCursor() {
         target.closest('[data-hover]');
 
       setIsHovering(shouldHover);
+      scaleValue.set(shouldHover ? 1.5 : 1);
     };
 
     window.addEventListener('mousemove', handleMouseMove, { passive: true });
@@ -31,32 +44,26 @@ export function CustomCursor() {
       window.removeEventListener('mousemove', handleMouseMove);
       window.removeEventListener('mouseover', handleMouseOver);
     };
-  }, []);
+  }, [mouseX, mouseY, scaleValue]);
 
   return (
     <>
       {/* Main cursor dot - crisp and precise */}
       <motion.div
         className="cursor-dot hidden md:block"
-        animate={{
-          x: mousePosition.x - 4,
-          y: mousePosition.y - 4,
+        style={{
+          x: mouseX,
+          y: mouseY,
         }}
-        transition={{ type: 'tween', ease: 'linear', duration: 0.01 }}
       />
 
       {/* Expanding outline - smooth, luxurious follow */}
       <motion.div
         className="cursor-outline hidden md:block"
-        animate={{
-          x: mousePosition.x - 20,
-          y: mousePosition.y - 20,
-          scale: isHovering ? 2.5 : 1,
-        }}
-        transition={{
-          x: { type: 'spring', damping: 25, stiffness: 150, mass: 0.5 },
-          y: { type: 'spring', damping: 25, stiffness: 150, mass: 0.5 },
-          scale: { type: 'spring', damping: 15, stiffness: 200, mass: 0.3 },
+        style={{
+          x: smoothX,
+          y: smoothY,
+          scale: smoothScale,
         }}
       />
     </>

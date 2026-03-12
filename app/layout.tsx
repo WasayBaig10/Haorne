@@ -33,8 +33,8 @@ export default function RootLayout({
   return (
     <html lang="en" className={playfair.variable + " " + montserrat.variable}>
       <body className="custom-cursor">
+        <CustomCursor />
         <SmoothScroll>
-          <CustomCursor />
           <Header />
           <main className="min-h-screen">{children}</main>
           <Footer />
